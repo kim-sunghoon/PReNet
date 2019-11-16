@@ -1,5 +1,6 @@
 import os
 import argparse
+import sys
 import numpy as np
 import torch
 import torch.nn as nn
@@ -16,7 +17,7 @@ from networks import *
 
 
 parser = argparse.ArgumentParser(description="PReNet_train")
-parser.add_argument("--preprocess", type=bool, default=True, help='run prepare_data or not')
+parser.add_argument("--preprocess", type=bool, default=False, help='run prepare_data or not')
 parser.add_argument("--batch_size", type=int, default=18, help="Training batch size")
 parser.add_argument("--epochs", type=int, default=100, help="Number of training epochs")
 parser.add_argument("--milestone", type=int, default=[30,50,80], help="When to decay learning rate")
@@ -131,7 +132,9 @@ if __name__ == "__main__":
             prepare_data_RainTrainL(data_path=opt.data_path, patch_size=100, stride=80)
         elif opt.data_path.find('Rain12600') != -1:
             prepare_data_Rain12600(data_path=opt.data_path, patch_size=100, stride=100)
+        elif opt.data_path.find('raindrop') != -1:
+            prepare_data_raindrop(data_path=opt.data_path, patch_size=100, stride=100)
         else:
             print('unkown datasets: please define prepare data function in DerainDataset.py')
-
+    #  sys.exit(1)
     main()

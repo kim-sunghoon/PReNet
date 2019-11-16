@@ -132,6 +132,8 @@ if __name__ == "__main__":
             prepare_data_RainTrainL(data_path=opt.data_path, patch_size=100, stride=80)
         elif opt.data_path.find('Rain12600') != -1:
             prepare_data_Rain12600(data_path=opt.data_path, patch_size=100, stride=100)
+        elif opt.data_path.find('raindrop') != -1:
+            prepare_data_raindrop(data_path=opt.data_path, patch_size=100, stride=100)
         else:
             print('unkown datasets: please define prepare data function in DerainDataset.py')
 
