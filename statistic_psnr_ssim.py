@@ -5,6 +5,7 @@ import cv2
 import skimage
 import natsort
 import numpy as np
+from tqdm import tqdm
 from skimage.measure import compare_psnr, compare_ssim
 
 gt_dirs = ['./datasets/test/raindrop_test_a/gt', './datasets/test/raindrop_test_b/gt']
@@ -25,7 +26,7 @@ def calc_ssim(im1, im2):
     im2 = cv2.imread(im2)
     im1_y = cv2.cvtColor(im1, cv2.COLOR_BGR2YCR_CB)
     im2_y = cv2.cvtColor(im2, cv2.COLOR_BGR2YCR_CB)
-    return compare_ssim(im1_y, im2_y)
+    return compare_ssim(im1_y, im2_y, multichannel=True)
 
 def parse_opt():
     parser = argparse.ArgumentParser(description="evaluation metric!")
@@ -60,18 +61,19 @@ if __name__ == "__main__":
     accum_psnr = np.zeros(1)
     accum_ssim = np.zeros(1)
 
+    csv = open(store_csv_name, 'a')
 
-    for gt, processed in zip(gt_list, processed_list):
+    for gt, processed in tqdm(zip(gt_list, processed_list)):
         psnr = calc_psnr(gt, processed)
         ssim = calc_ssim(gt, processed)
         accum_psnr = accum_psnr + psnr
         accum_ssim = accum_ssim + ssim
-        csv.write("{},{},{},{}\n".format(gt.split("/")[-1], processed.split("/")[-1], psnr, ssim))
+        csv.write("{},{},{:.3f},{:.3f}\n".format(gt.split("/")[-1], processed.split("/")[-1], psnr, ssim))
 
     avg_psnr = accum_psnr/len(processed_list)
     avg_ssim = accum_ssim/len(processed_list)
 
-    csv.write("Cal_avg,t {} files,{},{}\n".format(len(processed_list),avg_psnr, avg_ssim))
+    csv.write("Cal_avg,t {} files,{:.3f},{:.3f}\n".format(len(processed_list), avg_psnr[0], avg_ssim[0]))
     csv.close()
 
 
