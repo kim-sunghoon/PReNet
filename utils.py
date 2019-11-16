@@ -2,6 +2,7 @@ import math
 import torch
 import re
 import torch.nn as nn
+import torchsummary
 import numpy as np
 from skimage.measure.simple_metrics import compare_psnr
 import  os
@@ -47,5 +48,8 @@ def print_network(net):
         num_params += param.numel()
     print(net)
     print('Total number of parameters: %d' % num_params)
+    #TODO: raindrop image size - 720,480; it's too large!
+    torchsummary.summary(net, (3, 720, 480))
+
 
 
