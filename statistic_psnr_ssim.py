@@ -8,7 +8,7 @@ import numpy as np
 from tqdm import tqdm
 from skimage.measure import compare_psnr, compare_ssim
 
-gt_dirs = ['./datasets/test/raindrop_test_a/gt', './datasets/test/raindrop_test_b/gt']
+gt_dirs = ['datasets/test/raindrop_test_a/gt', 'datasets/test/raindrop_test_b/gt']
 
 def create_dir(dirname):
     if not os.path.exists(dirname):
