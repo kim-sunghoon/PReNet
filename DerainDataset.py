@@ -7,6 +7,7 @@ import torch
 import cv2
 import glob
 import torch.utils.data as udata
+import natsort
 from utils import *
 
 
@@ -177,6 +178,59 @@ def prepare_data_RainTrainL(data_path, patch_size, stride):
     input_h5f.close()
 
     print('training set, # samples %d\n' % train_num)
+
+def prepare_data_raindrop(data_path, patch_size, stride):
+    #  raise NotImplementedError
+    # train
+    print('process training data')
+    input_path = os.path.join(data_path, 'data')
+    target_path = os.path.join(data_path, 'gt')
+
+    save_target_path = os.path.join(data_path, 'train_target.h5')
+    save_input_path = os.path.join(data_path, 'train_input.h5')
+
+    target_h5f = h5py.File(save_target_path, 'w')
+    input_h5f = h5py.File(save_input_path, 'w')
+
+    train_num = 0
+    input_list = glob.glob(os.path.join(input_path, "*_rain.png"))
+    input_list = natsort.natsorted(input_list, reverse=False)
+    target_list = glob.glob(os.path.join(target_path, "*_clean.png"))
+    target_list = natsort.natsorted(target_list, reverse=False)
+    #  print(input_list)
+    #  print(target_list)
+    assert len(input_list) == len(target_list)
+    print("input_list len: {} \n target_list len: {}".format(len(input_list), len(target_list)))
+    for input_file, target_file in zip(input_list, target_list):
+
+        target_img = cv2.imread(os.path.join(target_file))
+        b, g, r = cv2.split(target_img)
+        target_img = cv2.merge([r, g, b])
+
+        input_img = cv2.imread(os.path.join(input_file))
+        b, g, r = cv2.split(input_img)
+        input_img = cv2.merge([r, g, b])
+
+        target_img = np.float32(normalize(target_img))
+        target_patches = Im2Patch(target_img.transpose(2,0,1), win=patch_size, stride=stride)
+
+        input_img = np.float32(normalize(input_img))
+        input_patches = Im2Patch(input_img.transpose(2, 0, 1), win=patch_size, stride=stride)
+
+        print("input file: %s # samples: %d" % (input_file, target_patches.shape[3]))
+
+        for n in range(target_patches.shape[3]):
+            target_data = target_patches[:, :, :, n].copy()
+            target_h5f.create_dataset(str(train_num), data=target_data)
+
+            input_data = input_patches[:, :, :, n].copy()
+            input_h5f.create_dataset(str(train_num), data=input_data)
+            train_num += 1
+
+    target_h5f.close()
+    input_h5f.close()
+    print('training set, # samples %d\n' % train_num)
+
 
 
 class Dataset(udata.Dataset):
