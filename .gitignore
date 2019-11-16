@@ -131,3 +131,8 @@ dmypy.json
 
 
 results/Rain*/
+
+*.h5
+
+net_epoch*.pth
+events.*
