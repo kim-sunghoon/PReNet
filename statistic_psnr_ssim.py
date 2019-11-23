@@ -44,9 +44,11 @@ if __name__ == "__main__":
     print(opts)
     create_dir(opts.store_eval_dir)
 
-    gt_list = glob.glob(os.path.join(opts.gt_dir, "*"))
+    gt_list = glob.glob(os.path.join(opts.gt_dir, "*.jpg"))
+    gt_list.extend(glob.glob(os.path.join(opts.gt_dir, "*.png")))
     gt_list = natsort.natsorted(gt_list, reverse=False)
-    processed_list = glob.glob(os.path.join(opts.result_dir, "*"))
+    processed_list = glob.glob(os.path.join(opts.result_dir, "*.jpg"))
+    processed_list.extend(glob.glob(os.path.join(opts.result_dir, "*.png")))
     processed_list = natsort.natsorted(processed_list, reverse=False)
 
     print("gt_list: {}, processed_list: {}".format(len(gt_list), len(processed_list)))
