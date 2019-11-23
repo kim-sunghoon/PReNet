@@ -25,6 +25,9 @@ if opt.use_GPU:
 def main():
 
     os.makedirs(opt.save_path, exist_ok=True)
+    summary_csv_name = os.path.join(opt.save_path, "{}_inf_time.csv".format(opt.logdir.split("/")[-1]))
+    with open(summary_csv_name, "w") as csv_out:
+        csv_out.write("img,inf_time\n")
 
     # Build model
     print('Loading model ...\n')
@@ -37,6 +40,8 @@ def main():
 
     time_test = 0
     count = 0
+    csv_out = open(summary_csv_name, "a")
+
     for img_name in os.listdir(opt.data_path):
         if is_image(img_name):
             img_path = os.path.join(opt.data_path, img_name)
@@ -69,6 +74,7 @@ def main():
                 time_test += dur_time
 
                 print(img_name, ': ', dur_time)
+                csv_out.write("{},{}\n".format(img_name, dur_time))
 
             if opt.use_GPU:
                 save_out = np.uint8(255 * out.data.cpu().numpy().squeeze())   #back to cpu
@@ -84,6 +90,8 @@ def main():
             count += 1
 
     print('Avg. time:', time_test/count)
+    csv_out.write("avg_{}imgs, {}\n".format(count, time_test/count))
+    csv_out.close()
 
 
 if __name__ == "__main__":
