@@ -700,13 +700,9 @@ class APRN_r(nn.Module):
             mask = mask.cuda()
             h = h.cuda()
             c = c.cuda()
-            #  print(mask.get_device())
-            #  print(h.get_device())
-            #  print(c.get_device())
-            #  print(mask)
 
         mask_list = []
-        for i in range(4):
+        for i in range(2):
             x = torch.cat((input, mask), 1)
             x = self.res_block0(x)
             resx = x
@@ -745,7 +741,7 @@ class APRN_r(nn.Module):
             x = input + x
             x_list.append(x)
 
-        return x, x_list # , mask, mask_list
+        return x, x_list, mask, mask_list
 
 
 class Attention_Gen(nn.Module):
@@ -890,7 +886,7 @@ class Attention_Gen(nn.Module):
         h = Variable(torch.zeros(batch_size, 32, row, col)).cuda() 
         c = Variable(torch.zeros(batch_size, 32, row, col)).cuda()
         mask_list = []
-        for i in range(ITERATION):
+        for i in range(4):
             x = torch.cat((input, mask), 1)
             x = self.det_conv0(x)
             resx = x
