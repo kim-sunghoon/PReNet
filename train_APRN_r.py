@@ -47,7 +47,7 @@ def main():
     # loss function
     # criterion = nn.MSELoss(size_average=False)
     #  criterion = SSIM()
-    criterian = SSIM_attention_loss()
+    criterion = SSIM_attention_loss()
 
     # Move to GPU
     if opt.use_gpu:

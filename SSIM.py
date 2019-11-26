@@ -74,7 +74,7 @@ def ssim(img1, img2, window_size = 11, size_average = True):
 class SSIM_attention_loss(torch.nn.Module):
 
     def __init__(self, window_size = 11, loss_decay = 0.8, size_average = True):
-        super(attention_loss, self).__init__()
+        super(SSIM_attention_loss, self).__init__()
         self.loss_decay = loss_decay
         self.window_size = window_size
         self.size_average = size_average
@@ -129,7 +129,8 @@ class SSIM_attention_loss(torch.nn.Module):
 
     ## TODO: main compute attention rnn loss
     def compute_attention_rnn_loss(self, img1, img2, mask_list):
-        inference_ret = self.build_attentive_rnn(img1)
+
+        inference_ret = self.build_attentive_rnn(img1, mask_list)
 
         loss = tf.constant(0.0, tf.float32)
         n = len(inference_ret['attention_map_list'])
