@@ -1,14 +1,17 @@
 #! bash
 
 ###
-echo "APRN_r a and b statistic"
-python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_a/gt --result_dir results/raindrop/APRN_r_a
-python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_b/gt --result_dir results/raindrop/APRN_r_b
+# echo "APRN_r a and b statistic"
+# python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_a/gt --result_dir results/raindrop/APRN_r_a
+# python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_b/gt --result_dir results/raindrop/APRN_r_b
 
 echo "APRN_r_2 a and b statisics"
-echo "Not implemented error"
 # python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_a/gt --result_dir results/raindrop/APRN_r_2_a
 # python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_b/gt --result_dir results/raindrop/APRN_r_2_b
+
+echo "APRN_r_2_diffent loss with test a and b "
+python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_a/gt --result_dir results/raindrop/APRN_r_2_l1_a
+python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_b/gt --result_dir results/raindrop/APRN_r_2_l1_b
 
 ### for test_a
 # PRN

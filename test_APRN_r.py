@@ -64,7 +64,7 @@ def main():
                     torch.cuda.synchronize()
                 start_time = time.time()
 
-                out, _ = model(y)
+                out, _, _, _ = model(y)
                 out = torch.clamp(out, 0., 1.)
 
                 if opt.use_GPU:

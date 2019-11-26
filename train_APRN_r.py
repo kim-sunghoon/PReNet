@@ -11,7 +11,7 @@ from tensorboardX import SummaryWriter
 from DerainDataset import *
 from utils import *
 from torch.optim.lr_scheduler import MultiStepLR
-from SSIM import SSIM
+from SSIM import SSIM, SSIM_attention_loss
 from networks import *
 
 
@@ -46,7 +46,8 @@ def main():
 
     # loss function
     # criterion = nn.MSELoss(size_average=False)
-    criterion = SSIM()
+    #  criterion = SSIM()
+    criterian = SSIM_attention_loss()
 
     # Move to GPU
     if opt.use_gpu:
@@ -84,8 +85,8 @@ def main():
             if opt.use_gpu:
                 input_train, target_train = input_train.cuda(), target_train.cuda()
 
-            out_train, _ = model(input_train)
-            pixel_metric = criterion(target_train, out_train)
+            out_train, _, _, mask_list = model(input_train)
+            pixel_metric = criterion(target_train, out_train, mask_list)
             loss = -pixel_metric
 
             loss.backward()
