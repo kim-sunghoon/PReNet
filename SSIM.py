@@ -4,7 +4,8 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 import numpy as np
 from math import exp
- 
+import matplotlib.pyplot as plt
+
 def gaussian(window_size, sigma):
     gauss = torch.Tensor([exp(-(x - window_size//2)**2/float(2*sigma**2)) for x in range(window_size)])
     return gauss/gauss.sum()
@@ -130,24 +131,45 @@ class SSIM_attention_loss(torch.nn.Module):
     ## TODO: main compute attention rnn loss
     def compute_attention_rnn_loss(self, img1, img2, mask_list):
 
-        inference_ret = self.build_attentive_rnn(img1, mask_list)
+        #  inference_ret = self.build_attentive_rnn(img1, mask_list)
+        #
+        #  loss = tf.constant(0.0, tf.float32)
+        #  n = len(inference_ret['attention_map_list'])
+        #  for index, attention_map in enumerate(inference_ret['attention_map_list']):
+        #      mse_loss = tf.pow(0.8, n - index + 1) * \
+        #                 tf.losses.mean_squared_error(labels=label_tensor,
+        #                                              predictions=attention_map)
+        #      loss = tf.add(loss, mse_loss)
+        #  print(img2.dim())
 
-        loss = tf.constant(0.0, tf.float32)
-        n = len(inference_ret['attention_map_list'])
-        for index, attention_map in enumerate(inference_ret['attention_map_list']):
-            mse_loss = tf.pow(0.8, n - index + 1) * \
-                       tf.losses.mean_squared_error(labels=label_tensor,
-                                                    predictions=attention_map)
-            loss = tf.add(loss, mse_loss)
+        diff = torch.mean(torch.abs(img1 - img2), dim=1, keepdim=True)
+        print('[img1]')
+        print(img1)
+        print('[img2]')
+        print(img2)
+        print(diff)
+        mask_label = (diff>0.3).float()
+        np_mask = diff.cpu()
+        np_mask = np_mask.numpy()
+        plt.imshow(np_mask[0].squeeze())
+        plt.show()
+       # print("The binary mask sum is : ", mask_label.sum())
+        loss = torch.zeros([1], dtype=torch.float32).cuda()
+        n = len(mask_list)
+        for index, attention_map in enumerate(mask_list):
+                loss_decay = torch.Tensor([self.loss_decay]).cuda()
+                exponent = torch.Tensor([n-index+1]).cuda()
+                mse_loss = torch.pow(loss_decay, exponent)* F.mse_loss(attention_map,mask_label).cuda()
+                loss = torch.add(loss, mse_loss).cuda()
+        return loss, mask_list[-1]
 
-        return loss, inference_ret['final_attention_map']
 
-
-    def forward(self, img1, img2, mask_list):
+    def forward(self, img1, img2, img3, mask_list):
         """
         -- compute_attentive_rnn_loss:
-        :img1 - input (raindrop image)
-        :img2 - target image (clean image)
+        :img1 - processed image (deraindroped?))
+        :img2 - target image (clean image, ground truth)
+        :img3 - unprocessed image - original raindrop image
         :mask_list - generated mask list
         """
         ssim_loss = self.cal_ssim_loss(img1, img2)
@@ -156,6 +178,8 @@ class SSIM_attention_loss(torch.nn.Module):
 
         ## TODO::
         attention_loss, _ = self.compute_attention_rnn_loss(img1, img2, mask_list)
+        print("attention loss")
+        print(attention_loss)
 
 
         return ssim_loss + attention_loss
