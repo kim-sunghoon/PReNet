@@ -90,8 +90,9 @@ def main():
             ### out_train - processed image
             ### target_train - ground truth
             ### input_train - original image
-            pixel_metric = criterion(out_train, target_train, input_train, mask_list)
-            loss = -pixel_metric
+            ssim_metric, attention_loss  = criterion(out_train, target_train, input_train, mask_list)
+
+            loss = -torch.add(ssim_metric, attention_loss).cuda()
 
             loss.backward()
             optimizer.step()
@@ -101,12 +102,14 @@ def main():
             out_train, _, _, _= model(input_train)
             out_train = torch.clamp(out_train, 0., 1.)
             psnr_train = batch_PSNR(out_train, target_train, 1.)
-            print("[epoch %d][%d/%d] loss: %.4f, pixel_metric: %.4f, PSNR: %.4f" %
-                  (epoch+1, i+1, len(loader_train), loss.item(), pixel_metric.item(), psnr_train))
+            print("[epoch %d][%d/%d] loss: %.4f, ssim_metric: %.4f, attention_loss: %.4f, PSNR: %.4f" %
+                  (epoch+1, i+1, len(loader_train), loss.item(), ssim_metric.item(), attention_loss, psnr_train))
 
             if step % 10 == 0:
                 # Log the scalar values
                 writer.add_scalar('loss', loss.item(), step)
+                writer.add_scalar('ssim_metric', ssim_metric.item(), step)
+                writer.add_scalar('attention_loss', attention_loss.item(), step)
                 writer.add_scalar('PSNR on training data', psnr_train, step)
             step += 1
         ## epoch training end

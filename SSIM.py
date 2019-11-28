@@ -77,6 +77,7 @@ class SSIM_attention_loss(torch.nn.Module):
     def __init__(self, window_size = 11, loss_decay = 0.8, size_average = True):
         super(SSIM_attention_loss, self).__init__()
         self.loss_decay = loss_decay
+        self.threshold = 0.3
         self.window_size = window_size
         self.size_average = size_average
         self.channel = 1
@@ -129,31 +130,17 @@ class SSIM_attention_loss(torch.nn.Module):
         return ret
 
     ## TODO: main compute attention rnn loss
-    def compute_attention_rnn_loss(self, img1, img2, mask_list):
+    def compute_attention_rnn_loss(self, img1, img2, img3, mask_list):
 
-        #  inference_ret = self.build_attentive_rnn(img1, mask_list)
-        #
-        #  loss = tf.constant(0.0, tf.float32)
-        #  n = len(inference_ret['attention_map_list'])
-        #  for index, attention_map in enumerate(inference_ret['attention_map_list']):
-        #      mse_loss = tf.pow(0.8, n - index + 1) * \
-        #                 tf.losses.mean_squared_error(labels=label_tensor,
-        #                                              predictions=attention_map)
-        #      loss = tf.add(loss, mse_loss)
-        #  print(img2.dim())
+        diff = torch.mean(torch.abs(img2 - img3), dim=1, keepdim=True)
+        mask_label = (diff > self.threshold).float()
 
-        diff = torch.mean(torch.abs(img1 - img2), dim=1, keepdim=True)
-        print('[img1]')
-        print(img1)
-        print('[img2]')
-        print(img2)
-        print(diff)
-        mask_label = (diff>0.3).float()
-        np_mask = diff.cpu()
-        np_mask = np_mask.numpy()
-        plt.imshow(np_mask[0].squeeze())
-        plt.show()
-       # print("The binary mask sum is : ", mask_label.sum())
+        ## To see the 'mask_label' in a image figure, comment out below
+        #  np_mask = mask_label.cpu()
+        #  np_mask = np_mask.numpy()
+        #  plt.imshow(np_mask[0].squeeze()) # shows only the first mask of a batch
+        #  plt.show()
+
         loss = torch.zeros([1], dtype=torch.float32).cuda()
         n = len(mask_list)
         for index, attention_map in enumerate(mask_list):
@@ -173,13 +160,13 @@ class SSIM_attention_loss(torch.nn.Module):
         :mask_list - generated mask list
         """
         ssim_loss = self.cal_ssim_loss(img1, img2)
-        print("ssim loss")
-        print(ssim_loss)
+        #  print("ssim loss")
+        #  print(ssim_loss)
 
         ## TODO::
-        attention_loss, _ = self.compute_attention_rnn_loss(img1, img2, mask_list)
-        print("attention loss")
-        print(attention_loss)
+        attention_loss, _ = self.compute_attention_rnn_loss(img1, img2, img3, mask_list)
+        #  print("attention loss")
+        #  print(attention_loss)
 
 
-        return ssim_loss + attention_loss
+        return ssim_loss,  attention_loss
