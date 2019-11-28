@@ -86,7 +86,11 @@ def main():
                 input_train, target_train = input_train.cuda(), target_train.cuda()
 
             out_train, _, _, mask_list = model(input_train)
-            pixel_metric = criterion(target_train, out_train, mask_list)
+            ### TODO:
+            ### out_train - processed image
+            ### target_train - ground truth
+            ### input_train - original image
+            pixel_metric = criterion(out_train, target_train, input_train, mask_list)
             loss = -pixel_metric
 
             loss.backward()
@@ -94,7 +98,7 @@ def main():
 
             # training curve
             model.eval()
-            out_train, _ = model(input_train)
+            out_train, _, _, _= model(input_train)
             out_train = torch.clamp(out_train, 0., 1.)
             psnr_train = batch_PSNR(out_train, target_train, 1.)
             print("[epoch %d][%d/%d] loss: %.4f, pixel_metric: %.4f, PSNR: %.4f" %
@@ -109,7 +113,7 @@ def main():
 
         # log the images
         model.eval()
-        out_train, _ = model(input_train)
+        out_train, _, _, _ = model(input_train)
         out_train = torch.clamp(out_train, 0., 1.)
         im_target = utils.make_grid(target_train.data, nrow=8, normalize=True, scale_each=True)
         im_input = utils.make_grid(input_train.data, nrow=8, normalize=True, scale_each=True)
