@@ -92,6 +92,7 @@ def main():
             ### input_train - original image
             ssim_metric, attention_loss  = criterion(out_train, target_train, input_train, mask_list)
 
+            attention_loss = torch.log10(attention_loss)/10
             loss = -torch.add(ssim_metric, attention_loss).cuda()
 
             loss.backward()
