@@ -608,9 +608,10 @@ class PRN_r(nn.Module):
         return x, x_list
 
 class APRN_r(nn.Module):
-    def __init__(self, recurrent_iter=6, use_GPU=True):
+    def __init__(self, num_mask=2, recurrent_iter=6, use_GPU=True):
         super(APRN_r, self).__init__()
         self.iteration = recurrent_iter
+        self.num_mask = num_mask
         self.use_GPU = use_GPU
         if torch.cuda.is_available():
             self.device = torch.device('cuda:0')
@@ -625,27 +626,32 @@ class APRN_r(nn.Module):
         self.res_block1 = nn.Sequential(
             nn.Conv2d(32, 32, 3, 1, 1),
             nn.ReLU(),
-            nn.Conv2d(32, 32, 3, 1, 1)
+            nn.Conv2d(32, 32, 3, 1, 1),
+            nn.ReLU()
             )
         self.res_block2 = nn.Sequential(
             nn.Conv2d(32, 32, 3, 1, 1),
             nn.ReLU(),
-            nn.Conv2d(32, 32, 3, 1, 1)
+            nn.Conv2d(32, 32, 3, 1, 1),
+            nn.ReLU()
             )
         self.res_block3 = nn.Sequential(
             nn.Conv2d(32, 32, 3, 1, 1),
             nn.ReLU(),
-            nn.Conv2d(32, 32, 3, 1, 1)
+            nn.Conv2d(32, 32, 3, 1, 1),
+            nn.ReLU()
             )
         self.res_block4 = nn.Sequential(
             nn.Conv2d(32, 32, 3, 1, 1),
             nn.ReLU(),
-            nn.Conv2d(32, 32, 3, 1, 1)
+            nn.Conv2d(32, 32, 3, 1, 1),
+            nn.ReLU()
             )
         self.res_block5 = nn.Sequential(
             nn.Conv2d(32, 32, 3, 1, 1),
             nn.ReLU(),
-            nn.Conv2d(32, 32, 3, 1, 1)
+            nn.Conv2d(32, 32, 3, 1, 1),
+            nn.ReLU()
             )
 
         #lstm
@@ -702,7 +708,7 @@ class APRN_r(nn.Module):
             c = c.cuda()
 
         mask_list = []
-        for i in range(2):
+        for i in range(self.num_mask):
             x = torch.cat((input, mask), 1)
             x = self.res_block0(x)
             resx = x
@@ -723,8 +729,16 @@ class APRN_r(nn.Module):
             c = f*c + i*g
             h = o*F.tanh(c)
             mask = self.att_conv_mask(h)
+            mask = torch.clamp(mask, 0., 1.)
             mask_list.append(mask)
-
+        #  print('--------len(mask_list)', len(mask_list), '--------')
+        #  print('--------sellf.num_mask', self.num_mask, '--------')
+        #  print(mask)
+        #  print('The mask shape is', mask.size())
+        #  print(input)
+        #  print('The input size is', input.size())
+        #  plt.imshow(mask)
+        #  plt.show()
         x = input
 
         x_list = []
