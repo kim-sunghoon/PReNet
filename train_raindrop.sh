@@ -3,7 +3,7 @@
 batch=36
 data_path=datasets/train/raindrop2
 ## APRN_r
-echo "train ARPN6_r_2_l1"
+# echo "train ARPN6_r_2_l1"
 # echo "python train_APRN_r.py --save_path logs/raindrop/APRN6_r --data_path datasets/train/raindrop2 --batch_size 18 --gpu_id 1"
 # python train_APRN_r.py --save_path logs/raindrop/APRN6_r --data_path datasets/train/raindrop2 --batch_size 18 --gpu_id 1
 # echo ", which is already done! where loss is ssim"
@@ -17,9 +17,14 @@ echo "Now, start adapt different loss function"
 # echo "python train_APRN_r.py --save_path $attention2_w_loss_save_path --data_path $data_path --batch_size $batch --gpu_id 1"
 # python train_APRN_r.py --save_path $attention2_w_loss_save_path --data_path $data_path --batch_size $batch --gpu_id 1
 
-attention2_w_loss_save_path2=logs/raindrop/APRN6_r_2_l2
-echo "python train_APRN_r.py --save_path $attention2_w_loss_save_path2 --data_path $data_path --batch_size $batch --gpu_id 1"
-python train_APRN_r.py --save_path $attention2_w_loss_save_path2 --data_path $data_path --batch_size $batch --gpu_id 1
+# attention2_w_loss_save_path2=logs/raindrop/APRN6_r_2_l2
+# echo "python train_APRN_r.py --save_path $attention2_w_loss_save_path2 --data_path $data_path --batch_size $batch --gpu_id 1"
+# python train_APRN_r.py --save_path $attention2_w_loss_save_path2 --data_path $data_path --batch_size $batch --gpu_id 1
+
+attention2_w_loss_save_path3=logs/raindrop/APRN6_r_2_l3
+echo "train $attention2_w_loss_save_path3"
+echo "python train_APRN_r.py --save_path $attention2_w_loss_save_path3 --data_path $data_path --batch_size $batch --gpu_id 1"
+python train_APRN_r.py --save_path $attention2_w_loss_save_path3 --data_path $data_path --batch_size $batch --gpu_id 1
 
 #####################################
 ## PRN
