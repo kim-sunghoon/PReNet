@@ -25,6 +25,7 @@ parser.add_argument('--gt_dir', type=str,
 parser.add_argument("--use_GPU", type=bool, default=True, help='use GPU or not')
 parser.add_argument("--gpu_id", type=str, default="0", help='GPU id')
 parser.add_argument("--recurrent_iter", type=int, default=6, help='number of recursive stages')
+parser.add_argument("--num_mask", type=int, default=2, help='number of masks in attention map')
 opt = parser.parse_args()
 
 if opt.use_GPU:
@@ -32,7 +33,8 @@ if opt.use_GPU:
 
 
 
-def save_mask_plt(img1, img2, img3, mask_list, mask_save_path, img_name, img_ext, threshold=0.3):
+#  def save_mask_plt(img1, img2, img3, mask_list, mask_save_path, img_name, img_ext, threshold=0.3):
+def save_mask_plt(mask_list, mask_save_path, img_name, img_ext, threshold=0.3):
     """
     -- compute_attentive_rnn_loss:
     :img1 - processed image (deraindroped?))
@@ -41,13 +43,13 @@ def save_mask_plt(img1, img2, img3, mask_list, mask_save_path, img_name, img_ext
     :mask_list - generated mask list
     """
 
-    diff = torch.mean(torch.abs(img2 - img3), dim=1, keepdim=True)
-    mask_label = (diff > threshold).float()
-
-    if opt.use_GPU:
-        mask_label = mask_label.data.cpu().numpy()   #back to cpu
-    else:
-        mask_label = mask_label.data.numpy()
+    #  diff = torch.mean(torch.abs(img2 - img3), dim=1, keepdim=True)
+    #  mask_label = (diff > threshold).float()
+    #
+    #  if opt.use_GPU:
+    #      mask_label = mask_label.data.cpu().numpy()   #back to cpu
+    #  else:
+    #      mask_label = mask_label.data.numpy()
 
     #  ## To see the 'mask_label' in a image figure, comment out below
     #  np_mask = mask_label.cpu()
@@ -55,17 +57,17 @@ def save_mask_plt(img1, img2, img3, mask_list, mask_save_path, img_name, img_ext
     #  #  num_mask = len(np_mask)
     #  plt.imshow(np_mask[0].squeeze()) # shows only the first mask of a batch
     #  plt.show()
-    for idx, attention_map in enumerate(mask_list):
-        try:
-            plt.imshow(mask_label[idx].squeeze())
-            plt.savefig(os.path.join(mask_save_path, "{}_mask{}{}".format(img_name, idx, img_ext)))
-        except:
-            pass
 
-        #  save_out = save_out.transpose(1, 2, 0)
-        #  b, g, r = cv2.split(save_out)
-        #  save_out = cv2.merge([r, g, b])
-        #  cv2.imwrite(os.path.join(mask_save_path, "{}_mask{}{}".format(img_name, idx,ext)), save_out)
+    for idx, attention_map in enumerate(mask_list):
+        #  plt.imshow(mask_label[idx].squeeze())
+        #  plt.savefig(os.path.join(mask_save_path, "{}_mask{}{}".format(img_name, idx, img_ext)))
+        if opt.use_GPU:
+            mask_label = attention_map.data.cpu().numpy().squeeze()   #back to cpu
+        else:
+            mask_label = attention_map.data.numpy().squeeze()
+        plt.imshow(mask_label)
+        plt.show()
+        plt.savefig(os.path.join(mask_save_path, "{}_mask{}{}".format(img_name, idx, img_ext)))
 
 
 
@@ -77,11 +79,11 @@ def main():
 
     summary_csv_name = os.path.join(opt.save_path, "{}_inf_time.csv".format(opt.logdir.split("/")[-1]))
     with open(summary_csv_name, "w") as csv_out:
-        csv_out.write("img,inf_time,mask_list\n")
+        csv_out.write("img,inf_time\n")
 
     # Build model
     print('Loading model ...\n')
-    model = APRN_r(opt.recurrent_iter, opt.use_GPU)
+    model = APRN_r(opt.num_mask, opt.recurrent_iter, opt.use_GPU)
     print_network(model)
     if opt.use_GPU:
         model = model.cuda()
@@ -123,12 +125,12 @@ def main():
             y = Variable(torch.Tensor(y))
 
             ## gt image 
-            gt = cv2.imread(gt_path)
-            b, g, r = cv2.split(gt)
-            gt = cv2.merge([r, g, b])
-            gt = normalize(np.float32(gt))
-            gt = np.expand_dims(gt.transpose(2, 0, 1), 0)
-            gt = Variable(torch.Tensor(gt))
+            #  gt = cv2.imread(gt_path)
+            #  b, g, r = cv2.split(gt)
+            #  gt = cv2.merge([r, g, b])
+            #  gt = normalize(np.float32(gt))
+            #  gt = np.expand_dims(gt.transpose(2, 0, 1), 0)
+            #  gt = Variable(torch.Tensor(gt))
 
             if opt.use_GPU:
                 y = y.cuda()
@@ -149,7 +151,13 @@ def main():
                 time_test += dur_time
 
                 print(img_name + ext, ': ', dur_time)
-                csv_out.write("{},{},{}\n".format(img_name, dur_time, mask_list))
+                csv_out.write("{},{}".format(img_name, dur_time))
+                #  for idx, mask in enumerate(mask_list):
+                    #  csv_out.write("{}".format(mask))
+                    #  if (idx-1) != len(mask_list):
+                    #      csv_out.write(",")
+
+                csv_out.write("\n")
 
             if opt.use_GPU:
                 save_out = np.uint8(255 * out.data.cpu().numpy().squeeze())   #back to cpu
@@ -161,7 +169,8 @@ def main():
             save_out = cv2.merge([r, g, b])
 
             cv2.imwrite(os.path.join(opt.save_path, "{}{}".format(img_name, ext)), save_out)
-            save_mask_plt(img1=out, img2=gt, img3=y, mask_list=mask_list, mask_save_path=mask_save_path, img_name=img_name, img_ext=ext)
+            #  save_mask_plt(img1=out, img2=gt, img3=y, mask_list=mask_list, mask_save_path=mask_save_path, img_name=img_name, img_ext=ext)
+            save_mask_plt(mask_list=mask_list, mask_save_path=mask_save_path, img_name=img_name, img_ext=ext)
 
             count += 1
 
