@@ -731,14 +731,14 @@ class APRN_r(nn.Module):
             mask = self.att_conv_mask(h)
             mask = torch.clamp(mask, 0., 1.)
             mask_list.append(mask)
-        #  print('--------len(mask_list)', len(mask_list), '--------')
-        #  print('--------sellf.num_mask', self.num_mask, '--------')
-        #  print(mask)
-        #  print('The mask shape is', mask.size())
-        #  print(input)
-        #  print('The input size is', input.size())
-        #  plt.imshow(mask)
-        #  plt.show()
+        # print('--------len(mask_list)', len(mask_list), '--------')
+        # print('--------sellf.num_mask', self.num_mask, '--------')
+        # print(mask)
+        # print('The mask shape is', mask.size())
+        # print(input)
+        # print('The input size is', input.size())
+        # plt.imshow(mask)
+        # plt.show()
         x = input
 
         x_list = []

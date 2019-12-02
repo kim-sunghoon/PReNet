@@ -7,7 +7,7 @@ import torch
 from torch.autograd import Variable
 from utils import *
 from networks import *
-import time 
+import time
 import matplotlib.pyplot as plt
 import glob
 import natsort
@@ -66,7 +66,7 @@ def save_mask_plt(mask_list, mask_save_path, img_name, img_ext, threshold=0.3):
         else:
             mask_label = attention_map.data.numpy().squeeze()
         plt.imshow(mask_label)
-        plt.show()
+        #  plt.show()
         plt.savefig(os.path.join(mask_save_path, "{}_mask{}{}".format(img_name, idx, img_ext)))
 
 
@@ -134,7 +134,7 @@ def main():
 
             if opt.use_GPU:
                 y = y.cuda()
-                gt = gt.cuda()
+                #  gt = gt.cuda()
 
             with torch.no_grad(): #
                 if opt.use_GPU:
