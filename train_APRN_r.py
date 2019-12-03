@@ -93,10 +93,11 @@ def main():
             ### out_train - processed image
             ### target_train - ground truth
             ### input_train - original image
-            ssim_metric, attention_loss  = criterion(out_train, target_train, input_train, mask_list)
+            ssim_metric, attention_loss, ssim_mask_metric  = criterion(out_train, target_train, input_train, mask_list)
 
             #  attention_loss = torch.log10(attention_loss)/10
             #  loss = -torch.add(ssim_metric, attention_loss).cuda()
+            #  loss = -torch.add(ssim_metric, ssim_mask_metric*0.01).cuda()
             loss = -ssim_metric
 
             loss.backward()
@@ -107,8 +108,8 @@ def main():
             out_train, _, _, _= model(input_train)
             out_train = torch.clamp(out_train, 0., 1.)
             psnr_train = batch_PSNR(out_train, target_train, 1.)
-            print("[epoch %d][%d/%d] loss: %.4f, ssim_metric: %.4f, attention_loss: %.4f, PSNR: %.4f" %
-                  (epoch+1, i+1, len(loader_train), loss.item(), ssim_metric.item(), attention_loss, psnr_train))
+            print("[epoch %d][%d/%d] loss: %.4f, ssim_metric: %.4f, attention_loss: %.4f, ssim_mask_metric: %.4f, PSNR: %.4f" %
+                  (epoch+1, i+1, len(loader_train), loss.item(), ssim_metric.item(), attention_loss.item(), ssim_mask_metric.item(), psnr_train))
 
             ### gen gt_mask
             diff = torch.mean(torch.abs(target_train - input_train), dim=1, keepdim=True)
@@ -118,11 +119,9 @@ def main():
                 writer.add_scalar('loss', loss.item(), step)
                 writer.add_scalar('ssim_metric', ssim_metric.item(), step)
                 writer.add_scalar('attention_loss', attention_loss.item(), step)
+                writer.add_scalar('ssim_mask_metric', ssim_mask_metric.item(), step)
                 writer.add_scalar('PSNR on training data', psnr_train, step)
 
-                #  for idx, gt_map in enumerate(gt_mask):
-                #      gt_mask = utils.make_grid(gt_map.data, nrow=8, normalize=False, scale_each=False)
-                #      writer.add_image('gt_mask_{}'.format(idx), gt_mask, step)
                 gt_mask_grid = utils.make_grid(gt_mask.data, nrow=8, normalize=False, scale_each=False)
                 writer.add_image('gt_mask', gt_mask_grid, step)
 

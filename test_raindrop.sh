@@ -27,18 +27,30 @@
 # python test_APRN_r.py --logdir $attention2_w_loss_save_path2 --save_path results/raindrop/APRN_r_2_l2_b --data_path datasets/test/raindrop_test_b/data --gt_dir datasets/test/raindrop_test_b/gt
 #
 
-attention2_w_loss_save_path3=logs/raindrop/APRN6_r_2_l3
+# attention2_w_loss_save_path3=logs/raindrop/APRN6_r_2_l3
 # echo "APRN_r_2_diffent loss with test a $attention2_w_loss_save_path3"
 # python test_APRN_r.py --logdir $attention2_w_loss_save_path3 --save_path results/raindrop/APRN_r_2_l3_a --data_path datasets/test/raindrop_test_a/data --gt_dir datasets/test/raindrop_test_a/gt
 # echo "APRN_r_2_diffent loss with test b $attention2_w_loss_save_path3"
 # python test_APRN_r.py --logdir $attention2_w_loss_save_path3 --save_path results/raindrop/APRN_r_2_l3_b --data_path datasets/test/raindrop_test_b/data --gt_dir datasets/test/raindrop_test_b/gt
 
 
-attention2_w_loss_save_path4=logs/raindrop/APRN6_r_2_l4
-echo "APRN_r_2_diffent loss with test a $attention2_w_loss_save_path4"
-python test_APRN_r.py --logdir $attention2_w_loss_save_path4 --save_path results/raindrop/APRN_r_2_l4_a --data_path datasets/test/raindrop_test_a/data --gt_dir datasets/test/raindrop_test_a/gt
-echo "APRN_r_2_diffent loss with test b $attention2_w_loss_save_path4"
-python test_APRN_r.py --logdir $attention2_w_loss_save_path4 --save_path results/raindrop/APRN_r_2_l4_b --data_path datasets/test/raindrop_test_b/data --gt_dir datasets/test/raindrop_test_b/gt
+# attention2_w_loss_save_path4=logs/raindrop/APRN6_r_2_l4
+# echo "APRN_r_2_diffent loss with test a $attention2_w_loss_save_path4"
+# python test_APRN_r.py --logdir $attention2_w_loss_save_path4 --save_path results/raindrop/APRN_r_2_l4_a --data_path datasets/test/raindrop_test_a/data --gt_dir datasets/test/raindrop_test_a/gt
+# echo "APRN_r_2_diffent loss with test b $attention2_w_loss_save_path4"
+# python test_APRN_r.py --logdir $attention2_w_loss_save_path4 --save_path results/raindrop/APRN_r_2_l4_b --data_path datasets/test/raindrop_test_b/data --gt_dir datasets/test/raindrop_test_b/gt
+#
+# attention2_w_loss_save_path5=logs/raindrop/APRN6_r_2_l5
+# echo "APRN_r_2_diffent loss with test a $attention2_w_loss_save_path5"
+# python test_APRN_r.py --logdir $attention2_w_loss_save_path5 --save_path results/raindrop/APRN_r_2_l5_a --data_path datasets/test/raindrop_test_a/data --gt_dir datasets/test/raindrop_test_a/gt
+# echo "APRN_r_2_diffent loss with test b $attention2_w_loss_save_path5"
+# python test_APRN_r.py --logdir $attention2_w_loss_save_path5 --save_path results/raindrop/APRN_r_2_l5_b --data_path datasets/test/raindrop_test_b/data --gt_dir datasets/test/raindrop_test_b/gt
+
+attention2_w_loss_save_path6=logs/raindrop/APRN6_r_2_l6
+echo "APRN_r_2_diffent loss with test a $attention2_w_loss_save_path6"
+python test_APRN_r.py --logdir $attention2_w_loss_save_path6 --save_path results/raindrop/APRN_r_2_l6_a --data_path datasets/test/raindrop_test_a/data --gt_dir datasets/test/raindrop_test_a/gt
+echo "APRN_r_2_diffent loss with test b $attention2_w_loss_save_path6"
+python test_APRN_r.py --logdir $attention2_w_loss_save_path6 --save_path results/raindrop/APRN_r_2_l6_b --data_path datasets/test/raindrop_test_b/data --gt_dir datasets/test/raindrop_test_b/gt
 
 ################################## 
 # ### for test_a
