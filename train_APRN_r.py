@@ -115,14 +115,14 @@ def main():
                 writer.add_scalar('ssim_metric', ssim_metric.item(), step)
                 writer.add_scalar('attention_loss', attention_loss.item(), step)
                 writer.add_scalar('PSNR on training data', psnr_train, step)
-                #  for idx, attention_map in enumerate(mask_list):
-                #      if opt.use_gpu:
-                #          mask_label = attention_map.data #.cpu().numpy().squeeze()   #back to cpu
-                #      else:
-                #          mask_label = attention_map.data #.numpy().squeeze()
-                #      print("batch_size: {}, c: {}, r: {}, h: {}".format(attention_map.size(0), attention_map.size(1), attention_map.size(2), attention_map.size(3)))
-                #      im_mask = utils.make_grid(mask_label, nrow=8, normalize=False, scale_each=False)
-                #      writer.add_image('mask_{}'.format(idx), im_mask, step)
+                for idx, attention_map in enumerate(mask_list):
+                    if opt.use_gpu:
+                        mask_label = attention_map.data #.cpu().numpy().squeeze()   #back to cpu
+                    else:
+                        mask_label = attention_map.data #.numpy().squeeze()
+                    #  print("batch_size: {}, c: {}, r: {}, h: {}".format(attention_map.size(0), attention_map.size(1), attention_map.size(2), attention_map.size(3)))
+                    im_mask = utils.make_grid(mask_label, nrow=8, normalize=False, scale_each=False)
+                    writer.add_image('mask_{}'.format(idx), im_mask, step)
             step += 1
         ## epoch training end
 
@@ -136,13 +136,14 @@ def main():
         writer.add_image('clean image', im_target, epoch+1)
         writer.add_image('rainy image', im_input, epoch+1)
         writer.add_image('deraining image', im_derain, epoch+1)
-        for idx, attention_map in enumerate(mask_list):
-            if opt.use_gpu:
-                mask_label = attention_map.data #.cpu().numpy().squeeze()   #back to cpu
-            else:
-                mask_label = attention_map.data #.numpy().squeeze()
-            im_mask = utils.make_grid(mask_label, nrow=8, normalize=False, scale_each=True)
-            writer.add_image('mask_{}'.format(idx), im_mask, epoch+1)
+        #  for idx, attention_map in enumerate(mask_list):
+        #      if opt.use_gpu:
+        #          mask_label = attention_map.data #.cpu().numpy().squeeze()   #back to cpu
+        #      else:
+        #          mask_label = attention_map.data #.numpy().squeeze()
+        #      #  print("batch_size: {}, c: {}, r: {}, h: {}".format(attention_map.size(0), attention_map.size(1), attention_map.size(2), attention_map.size(3)))
+        #      im_mask = utils.make_grid(mask_label, nrow=8, normalize=False, scale_each=False)
+        #      writer.add_image('mask_{}'.format(idx), im_mask, epoch+1)
 
         # save model
         torch.save(model.state_dict(), os.path.join(opt.save_path, 'net_latest.pth'))
