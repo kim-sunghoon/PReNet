@@ -11,7 +11,7 @@ import cv2
 import random
 import time
 import os
- 
+from utils import mask_normalize
 
 class PReNet(nn.Module):
     def __init__(self, recurrent_iter=6, use_GPU=True):
@@ -727,18 +727,26 @@ class APRN_r(nn.Module):
             g = self.conv_g(x)
             o = self.conv_o(x)
             c = f*c + i*g
-            h = o*F.tanh(c)
+            h = o*torch.tanh(c)
             mask = self.att_conv_mask(h)
-            mask = torch.clamp(mask, 0., 1.)
+            #  mask = torch.clamp(mask, 0., 1.)
+            #  mask = mask_normalize(mask)
+            #  print(mask)
+            #  print(torch.max(mask))
+            #  mask = mask/torch.max(mask)
+            #  print("before sigmoid", mask)
+            mask = torch.sigmoid(mask)
+            #  print("after sigmoid", mask)
             mask_list.append(mask)
-        # print('--------len(mask_list)', len(mask_list), '--------')
-        # print('--------sellf.num_mask', self.num_mask, '--------')
-        # print(mask)
-        # print('The mask shape is', mask.size())
-        # print(input)
-        # print('The input size is', input.size())
-        # plt.imshow(mask)
-        # plt.show()
+        #  print('--------len(mask_list)', len(mask_list), '--------')
+        #  print('--------sellf.num_mask', self.num_mask, '--------')
+        #  print(mask)
+
+        #  print('The mask shape is', mask.size())
+        #  print(input)
+        #  print('The input size is', input.size())
+        #  plt.imshow(mask)
+        #  plt.show()
         x = input
 
         x_list = []
