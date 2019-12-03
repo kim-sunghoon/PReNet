@@ -32,7 +32,7 @@ def parse_opt():
     parser = argparse.ArgumentParser(description="evaluation metric!")
     parser.add_argument('--gt_dir', type=str, 
             choices = gt_dirs,
-            default='./datasets/test/raindrop_test_a/gt', help='ground truth dir \n' + ' | '.join(gt_dirs))
+            default='datasets/test/raindrop_test_a/gt', help='ground truth dir \n' + ' | '.join(gt_dirs))
     parser.add_argument('--result_dir', type=str, default='./results/raindrop/PRN6_a', help='test result files')
     parser.add_argument('--store_eval_dir', type=str, default='store_eval_dir')
     print("gt a and result a should be matched")
@@ -55,6 +55,8 @@ if __name__ == "__main__":
     assert len(gt_list) == len(processed_list)
 
     store_csv_name = os.path.join(opts.store_eval_dir, "{}.csv".format(opts.result_dir.split("/")[-1]))
+
+    print("Please See: {}".format(store_csv_name))
 
     csv = open(store_csv_name, 'w')
     csv.write("gt,processed,psnr,ssim\n")
