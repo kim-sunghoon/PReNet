@@ -22,13 +22,13 @@ parser.add_argument("--save_path", type=str, default="/home/r/works/derain_arxiv
 parser.add_argument('--gt_dir', type=str, 
     choices = gt_dirs,
     default='datasets/test/raindrop_test_a/gt', help='ground truth dir \n' + ' | '.join(gt_dirs))
-parser.add_argument("--use_GPU", type=bool, default=True, help='use GPU or not')
+parser.add_argument("--use_gpu", type=bool, default=True, help='use GPU or not')
 parser.add_argument("--gpu_id", type=str, default="0", help='GPU id')
 parser.add_argument("--recurrent_iter", type=int, default=6, help='number of recursive stages')
 parser.add_argument("--num_mask", type=int, default=2, help='number of masks in attention map')
 opt = parser.parse_args()
 
-if opt.use_GPU:
+if opt.use_gpu:
     os.environ["CUDA_VISIBLE_DEVICES"] = opt.gpu_id
 
 
@@ -46,7 +46,7 @@ def save_mask_plt(mask_list, mask_save_path, img_name, img_ext, threshold=0.3):
     #  diff = torch.mean(torch.abs(img2 - img3), dim=1, keepdim=True)
     #  mask_label = (diff > threshold).float()
     #
-    #  if opt.use_GPU:
+    #  if opt.use_gpu:
     #      mask_label = mask_label.data.cpu().numpy()   #back to cpu
     #  else:
     #      mask_label = mask_label.data.numpy()
@@ -61,7 +61,7 @@ def save_mask_plt(mask_list, mask_save_path, img_name, img_ext, threshold=0.3):
     for idx, attention_map in enumerate(mask_list):
         #  plt.imshow(mask_label[idx].squeeze())
         #  plt.savefig(os.path.join(mask_save_path, "{}_mask{}{}".format(img_name, idx, img_ext)))
-        if opt.use_GPU:
+        if opt.use_gpu:
             mask_label = attention_map.data.cpu().numpy().squeeze()   #back to cpu
         else:
             mask_label = attention_map.data.numpy().squeeze()
@@ -83,9 +83,9 @@ def main():
 
     # Build model
     print('Loading model ...\n')
-    model = APRN_r(opt.num_mask, opt.recurrent_iter, opt.use_GPU)
+    model = APRN_r(opt.num_mask, opt.recurrent_iter, opt.use_gpu)
     print_network(model)
-    if opt.use_GPU:
+    if opt.use_gpu:
         model = model.cuda()
     model.load_state_dict(torch.load(os.path.join(opt.logdir, 'net_latest.pth')))
     model.eval()
@@ -132,19 +132,19 @@ def main():
             #  gt = np.expand_dims(gt.transpose(2, 0, 1), 0)
             #  gt = Variable(torch.Tensor(gt))
 
-            if opt.use_GPU:
+            if opt.use_gpu:
                 y = y.cuda()
                 #  gt = gt.cuda()
 
             with torch.no_grad(): #
-                if opt.use_GPU:
+                if opt.use_gpu:
                     torch.cuda.synchronize()
                 start_time = time.time()
 
                 out, _, _, mask_list = model(y)
                 out = torch.clamp(out, 0., 1.)
 
-                if opt.use_GPU:
+                if opt.use_gpu:
                     torch.cuda.synchronize()
                 end_time = time.time()
                 dur_time = end_time - start_time
@@ -159,7 +159,7 @@ def main():
 
                 csv_out.write("\n")
 
-            if opt.use_GPU:
+            if opt.use_gpu:
                 save_out = np.uint8(255 * out.data.cpu().numpy().squeeze())   #back to cpu
             else:
                 save_out = np.uint8(255 * out.data.numpy().squeeze())
