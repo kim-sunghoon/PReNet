@@ -1,6 +1,6 @@
 #! bash
 
-batch=36
+batch=30
 data_path=datasets/train/raindrop2
 ## APRN_r
 # echo "train ARPN6_r_2_l1"
@@ -21,10 +21,20 @@ echo "Now, start adapt different loss function"
 # echo "python train_APRN_r.py --save_path $attention2_w_loss_save_path2 --data_path $data_path --batch_size $batch --gpu_id 1"
 # python train_APRN_r.py --save_path $attention2_w_loss_save_path2 --data_path $data_path --batch_size $batch --gpu_id 1
 
-attention2_w_loss_save_path3=logs/raindrop/APRN6_r_2_l3
-echo "train $attention2_w_loss_save_path3"
-echo "python train_APRN_r.py --save_path $attention2_w_loss_save_path3 --data_path $data_path --batch_size $batch --gpu_id 1"
-python train_APRN_r.py --save_path $attention2_w_loss_save_path3 --data_path $data_path --batch_size $batch --gpu_id 1
+# attention2_w_loss_save_path3=logs/raindrop/APRN6_r_2_l3
+# echo "train $attention2_w_loss_save_path3"
+# echo "python train_APRN_r.py --save_path $attention2_w_loss_save_path3 --data_path $data_path --batch_size $batch --gpu_id 1"
+# python train_APRN_r.py --save_path $attention2_w_loss_save_path3 --data_path $data_path --batch_size $batch --gpu_id 1
+
+# attention2_w_loss_save_path4=logs/raindrop/APRN6_r_2_l4
+# echo "train $attention2_w_loss_save_path4"
+# echo "python train_APRN_r.py --save_path $attention2_w_loss_save_path4 --data_path $data_path --batch_size $batch --gpu_id 1"
+# python train_APRN_r.py --save_path $attention2_w_loss_save_path4 --data_path $data_path --batch_size $batch --gpu_id 1
+
+attention2_w_loss_save_path5=logs/raindrop/APRN6_r_2_l5
+echo "train $attention2_w_loss_save_path5"
+echo "python train_APRN_r.py --save_path $attention2_w_loss_save_path5 --data_path $data_path --batch_size $batch --gpu_id 3"
+python train_APRN_r.py --save_path $attention2_w_loss_save_path5 --data_path $data_path --batch_size $batch --gpu_id 3
 
 #####################################
 ## PRN

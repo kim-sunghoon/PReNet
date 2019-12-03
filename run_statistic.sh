@@ -19,8 +19,12 @@
 # python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_b/gt --result_dir results/raindrop/APRN_r_2_l2_b
 
 echo "APRN_r_2_diffent loss3 with test a and b "
-python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_a/gt --result_dir results/raindrop/APRN_r_2_l3_a
-python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_b/gt --result_dir results/raindrop/APRN_r_2_l3_b
+# python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_a/gt --result_dir results/raindrop/APRN_r_2_l3_a
+# python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_b/gt --result_dir results/raindrop/APRN_r_2_l3_b
+
+echo "APRN_r_2_diffent loss4 with test a and b "
+python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_a/gt --result_dir results/raindrop/APRN_r_2_l4_a
+python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_b/gt --result_dir results/raindrop/APRN_r_2_l4_b
 
 
 ############# 
