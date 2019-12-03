@@ -88,6 +88,7 @@ def main():
 
             out_train, _, _, mask_list = model(input_train)
 
+
             ### TODO:
             ### out_train - processed image
             ### target_train - ground truth
@@ -109,12 +110,22 @@ def main():
             print("[epoch %d][%d/%d] loss: %.4f, ssim_metric: %.4f, attention_loss: %.4f, PSNR: %.4f" %
                   (epoch+1, i+1, len(loader_train), loss.item(), ssim_metric.item(), attention_loss, psnr_train))
 
+            ### gen gt_mask
+            diff = torch.mean(torch.abs(target_train - input_train), dim=1, keepdim=True)
+            gt_mask = (diff > 0.3).float()
             if step % 10 == 0:
                 # Log the scalar values
                 writer.add_scalar('loss', loss.item(), step)
                 writer.add_scalar('ssim_metric', ssim_metric.item(), step)
                 writer.add_scalar('attention_loss', attention_loss.item(), step)
                 writer.add_scalar('PSNR on training data', psnr_train, step)
+
+                #  for idx, gt_map in enumerate(gt_mask):
+                #      gt_mask = utils.make_grid(gt_map.data, nrow=8, normalize=False, scale_each=False)
+                #      writer.add_image('gt_mask_{}'.format(idx), gt_mask, step)
+                gt_mask_grid = utils.make_grid(gt_mask.data, nrow=8, normalize=False, scale_each=False)
+                writer.add_image('gt_mask', gt_mask_grid, step)
+
                 for idx, attention_map in enumerate(mask_list):
                     if opt.use_gpu:
                         mask_label = attention_map.data #.cpu().numpy().squeeze()   #back to cpu
