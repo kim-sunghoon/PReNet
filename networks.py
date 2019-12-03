@@ -733,7 +733,7 @@ class APRN_r(nn.Module):
             #  mask = mask_normalize(mask)
             #  print(mask)
             #  print(torch.max(mask))
-            #  mask = mask/torch.max(mask)
+            #  mask = mask/torch.max(torch.abs(mask))
             #  print("before sigmoid", mask)
             mask = torch.sigmoid(mask)
             #  print("after sigmoid", mask)

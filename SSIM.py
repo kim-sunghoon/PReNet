@@ -98,36 +98,6 @@ class SSIM_attention_loss(torch.nn.Module):
         return _ssim(img1, img2, window, self.window_size, channel, self.size_average)
 
 
-    ## TODO: need to chnage tf to pytorch
-    def build_attentive_rnn(self, img1, mask_list):
-        """
-        """
-        batch_size, row, col = img1.size(0), img1.size(2), img1.size(3)
-
-        init_attention_map = Variable(torch.ones(batch_size, 1, row, col)/2).cuda()
-        init_cell_state = Variable(torch.zeros( batch_size, 32, row, col)).cuda()
-        init_lstm_feats = Variable(torch.zeros( batch_size, 32, row, col)).cuda()
-
-        for i in range(4):
-            attention_input = tf.concat((input_tensor, init_attention_map), axis=-1)
-            conv_feats = self._residual_block(input_tensor=attention_input,
-                                              name='residual_block_{:d}'.format(i + 1))
-            lstm_ret = self._conv_lstm(input_tensor=conv_feats,
-                                       input_cell_state=init_cell_state,
-                                       name='conv_lstm_block_{:d}'.format(i + 1))
-            init_attention_map = lstm_ret['attention_map']
-            init_cell_state = lstm_ret['cell_state']
-            init_lstm_feats = lstm_ret['lstm_feats']
-
-            attention_map_list.append(lstm_ret['attention_map'])
-
-        ret = {
-            'final_attention_map': init_attention_map,
-            'final_lstm_feats': init_lstm_feats,
-            'attention_map_list': attention_map_list
-        }
-
-        return ret
 
     ## TODO: main compute attention rnn loss
     def compute_attention_rnn_loss(self, img1, img2, img3, mask_list):
@@ -148,7 +118,9 @@ class SSIM_attention_loss(torch.nn.Module):
                 exponent = torch.Tensor([n-index+1]).cuda()
                 mse_loss = torch.pow(loss_decay, exponent)* F.mse_loss(attention_map,mask_label).cuda()
                 loss = torch.add(loss, mse_loss).cuda()
-        return loss, mask_list[-1]
+
+        ssim_mask_loss = self.cal_ssim_loss(mask_list[-1], mask_label)
+        return loss, mask_list[-1], ssim_mask_loss
 
 
     def forward(self, img1, img2, img3, mask_list):
@@ -164,9 +136,9 @@ class SSIM_attention_loss(torch.nn.Module):
         #  print(ssim_loss)
 
         ## TODO::
-        attention_loss, _ = self.compute_attention_rnn_loss(img1, img2, img3, mask_list)
+        attention_loss, _, ssim_mask_metric = self.compute_attention_rnn_loss(img1, img2, img3, mask_list)
         #  print("attention loss")
         #  print(attention_loss)
 
 
-        return ssim_loss,  attention_loss
+        return ssim_loss,  attention_loss, ssim_mask_metric
