@@ -15,7 +15,7 @@ from SSIM import SSIM, SSIM_attention_loss
 from networks import *
 
 
-parser = argparse.ArgumentParser(description="PReNet_train")
+parser = argparse.ArgumentParser(description="APRN_r_train")
 parser.add_argument("--preprocess", type=bool, default=False, help='run prepare_data or not')
 parser.add_argument("--batch_size", type=int, default=18, help="Training batch size")
 parser.add_argument("--epochs", type=int, default=100, help="Number of training epochs")
@@ -87,6 +87,7 @@ def main():
                 input_train, target_train = input_train.cuda(), target_train.cuda()
 
             out_train, _, _, mask_list = model(input_train)
+
             ### TODO:
             ### out_train - processed image
             ### target_train - ground truth
@@ -94,7 +95,8 @@ def main():
             ssim_metric, attention_loss  = criterion(out_train, target_train, input_train, mask_list)
 
             #  attention_loss = torch.log10(attention_loss)/10
-            loss = -torch.add(ssim_metric, attention_loss).cuda()
+            #  loss = -torch.add(ssim_metric, attention_loss).cuda()
+            loss = -ssim_metric
 
             loss.backward()
             optimizer.step()
@@ -113,12 +115,20 @@ def main():
                 writer.add_scalar('ssim_metric', ssim_metric.item(), step)
                 writer.add_scalar('attention_loss', attention_loss.item(), step)
                 writer.add_scalar('PSNR on training data', psnr_train, step)
+                #  for idx, attention_map in enumerate(mask_list):
+                #      if opt.use_gpu:
+                #          mask_label = attention_map.data #.cpu().numpy().squeeze()   #back to cpu
+                #      else:
+                #          mask_label = attention_map.data #.numpy().squeeze()
+                #      print("batch_size: {}, c: {}, r: {}, h: {}".format(attention_map.size(0), attention_map.size(1), attention_map.size(2), attention_map.size(3)))
+                #      im_mask = utils.make_grid(mask_label, nrow=8, normalize=False, scale_each=False)
+                #      writer.add_image('mask_{}'.format(idx), im_mask, step)
             step += 1
         ## epoch training end
 
         # log the images
         model.eval()
-        out_train, _, _, _ = model(input_train)
+        out_train, _, _, mask_list = model(input_train)
         out_train = torch.clamp(out_train, 0., 1.)
         im_target = utils.make_grid(target_train.data, nrow=8, normalize=True, scale_each=True)
         im_input = utils.make_grid(input_train.data, nrow=8, normalize=True, scale_each=True)
@@ -126,6 +136,13 @@ def main():
         writer.add_image('clean image', im_target, epoch+1)
         writer.add_image('rainy image', im_input, epoch+1)
         writer.add_image('deraining image', im_derain, epoch+1)
+        for idx, attention_map in enumerate(mask_list):
+            if opt.use_gpu:
+                mask_label = attention_map.data #.cpu().numpy().squeeze()   #back to cpu
+            else:
+                mask_label = attention_map.data #.numpy().squeeze()
+            im_mask = utils.make_grid(mask_label, nrow=8, normalize=False, scale_each=True)
+            writer.add_image('mask_{}'.format(idx), im_mask, epoch+1)
 
         # save model
         torch.save(model.state_dict(), os.path.join(opt.save_path, 'net_latest.pth'))
