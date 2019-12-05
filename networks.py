@@ -608,15 +608,12 @@ class PRN_r(nn.Module):
         return x, x_list
 
 class APRN_r(nn.Module):
-    def __init__(self, num_mask=2, recurrent_iter=6, use_GPU=True):
+    def __init__(self, num_mask=2, recurrent_iter=6, use_GPU=True, which_mask=0):
         super(APRN_r, self).__init__()
         self.iteration = recurrent_iter
         self.num_mask = num_mask
         self.use_GPU = use_GPU
-        if torch.cuda.is_available():
-            self.device = torch.device('cuda:0')
-        else:
-            self.device = torch.device('cpu')
+        self.which_mask = which_mask
 
         # attention module
         self.res_block0 = nn.Sequential(
@@ -752,7 +749,7 @@ class APRN_r(nn.Module):
         x_list = []
         ## PRN_r module
         for i in range(self.iteration):
-            x = torch.cat((input, x, mask), 1)
+            x = torch.cat((input, x, mask_list[self.which_mask]), 1)
             x = self.conv0(x)
             ## unfolding block
             for j in range(5):

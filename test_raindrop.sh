@@ -47,11 +47,59 @@
 # python test_APRN_r.py --logdir $attention2_w_loss_save_path5 --save_path results/raindrop/APRN_r_2_l5_b --data_path datasets/test/raindrop_test_b/data --gt_dir datasets/test/raindrop_test_b/gt
 
 attention2_w_loss_save_path6=logs/raindrop/APRN6_r_2_l6
-echo "APRN_r_2_diffent loss with test a $attention2_w_loss_save_path6"
-python test_APRN_r.py --logdir $attention2_w_loss_save_path6 --save_path results/raindrop/APRN_r_2_l6_a --data_path datasets/test/raindrop_test_a/data --gt_dir datasets/test/raindrop_test_a/gt
-echo "APRN_r_2_diffent loss with test b $attention2_w_loss_save_path6"
-python test_APRN_r.py --logdir $attention2_w_loss_save_path6 --save_path results/raindrop/APRN_r_2_l6_b --data_path datasets/test/raindrop_test_b/data --gt_dir datasets/test/raindrop_test_b/gt
+# echo "APRN_r_2_diffent loss with test a $attention2_w_loss_save_path6"
+# python test_APRN_r.py --logdir $attention2_w_loss_save_path6 --save_path results/raindrop/APRN_r_2_l6_a --data_path datasets/test/raindrop_test_a/data --gt_dir datasets/test/raindrop_test_a/gt --gpu_id 2
+# echo "APRN_r_2_diffent loss with test b $attention2_w_loss_save_path6"
+# python test_APRN_r.py --logdir $attention2_w_loss_save_path6 --save_path results/raindrop/APRN_r_2_l6_b --data_path datasets/test/raindrop_test_b/data --gt_dir datasets/test/raindrop_test_b/gt --gpu_id 2
+# recurrent_iter=4
+# echo "APRN_r_2_diffent loss with test a $attention2_w_loss_save_path6"
+# python test_APRN_r.py --logdir $attention2_w_loss_save_path6 --save_path results/raindrop/APRN_r_2_l6_i4_a --data_path datasets/test/raindrop_test_a/data --gt_dir datasets/test/raindrop_test_a/gt --gpu_id 2 --recurrent_iter $recurrent_iter
+# echo "APRN_r_2_diffent loss with test b $attention2_w_loss_save_path6"
+# python test_APRN_r.py --logdir $attention2_w_loss_save_path6 --save_path results/raindrop/APRN_r_2_l6_i4_b --data_path datasets/test/raindrop_test_b/data --gt_dir datasets/test/raindrop_test_b/gt --gpu_id 2 --recurrent_iter $recurrent_iter
+# recurrent_iter=3
+# echo "APRN_r_2_diffent loss with test a $attention2_w_loss_save_path6"
+# python test_APRN_r.py --logdir $attention2_w_loss_save_path6 --save_path results/raindrop/APRN_r_2_l6_i3_a --data_path datasets/test/raindrop_test_a/data --gt_dir datasets/test/raindrop_test_a/gt --gpu_id 2 --recurrent_iter $recurrent_iter
+# echo "APRN_r_2_diffent loss with test b $attention2_w_loss_save_path6"
+# python test_APRN_r.py --logdir $attention2_w_loss_save_path6 --save_path results/raindrop/APRN_r_2_l6_i3_b --data_path datasets/test/raindrop_test_b/data --gt_dir datasets/test/raindrop_test_b/gt --gpu_id 2 --recurrent_iter $recurrent_iter
+#
+# recurrent_iter=2
+# echo "APRN_r_2_diffent loss with test a $attention2_w_loss_save_path6"
+# python test_APRN_r.py --logdir $attention2_w_loss_save_path6 --save_path results/raindrop/APRN_r_2_l6_i2_a --data_path datasets/test/raindrop_test_a/data --gt_dir datasets/test/raindrop_test_a/gt --gpu_id 2 --recurrent_iter $recurrent_iter
+# echo "APRN_r_2_diffent loss with test b $attention2_w_loss_save_path6"
+# python test_APRN_r.py --logdir $attention2_w_loss_save_path6 --save_path results/raindrop/APRN_r_2_l6_i2_b --data_path datasets/test/raindrop_test_b/data --gt_dir datasets/test/raindrop_test_b/gt --gpu_id 2 --recurrent_iter $recurrent_iter
+#
+# recurrent_iter=1
+# echo "APRN_r_2_diffent loss with test a $attention2_w_loss_save_path6"
+# python test_APRN_r.py --logdir $attention2_w_loss_save_path6 --save_path results/raindrop/APRN_r_2_l6_i1_a --data_path datasets/test/raindrop_test_a/data --gt_dir datasets/test/raindrop_test_a/gt --gpu_id 2 --recurrent_iter $recurrent_iter
+# echo "APRN_r_2_diffent loss with test b $attention2_w_loss_save_path6"
+# python test_APRN_r.py --logdir $attention2_w_loss_save_path6 --save_path results/raindrop/APRN_r_2_l6_i1_b --data_path datasets/test/raindrop_test_b/data --gt_dir datasets/test/raindrop_test_b/gt --gpu_id 2 --recurrent_iter $recurrent_iter
 
+# recurrent_iter=6
+# wm=0
+# echo "APRN_r_2_diffent loss with test a $attention2_w_loss_save_path6 which mask: $wm"
+# python test_APRN_r.py --logdir $attention2_w_loss_save_path6 --save_path results/raindrop/APRN_r_2_l6_m${wm}_a --data_path datasets/test/raindrop_test_a/data --gt_dir datasets/test/raindrop_test_a/gt --gpu_id 2 --recurrent_iter $recurrent_iter --which_mask $wm
+# echo "APRN_r_2_diffent loss with test b $attention2_w_loss_save_path6"
+# python test_APRN_r.py --logdir $attention2_w_loss_save_path6 --save_path results/raindrop/APRN_r_2_l6_m${wm}_b --data_path datasets/test/raindrop_test_b/data --gt_dir datasets/test/raindrop_test_b/gt --gpu_id 2 --recurrent_iter $recurrent_iter --which_mask $wm
+
+#### 12.05 13:38
+recurrent_iter=6
+num_mask=4
+wm=3
+
+echo "APRN_r_2_diffent loss with test a $attention2_w_loss_save_path6 which mask: $wm"
+python test_APRN_r.py --logdir $attention2_w_loss_save_path6 --save_path results/raindrop/APRN_r_2_l6_m${wm}_tm${num_mask}_a --data_path datasets/test/raindrop_test_a/data --gt_dir datasets/test/raindrop_test_a/gt --gpu_id 2 --recurrent_iter $recurrent_iter --which_mask $wm --num_mask $num_mask
+
+wm=2
+echo "APRN_r_2_diffent loss with test a $attention2_w_loss_save_path6 which mask: $wm"
+python test_APRN_r.py --logdir $attention2_w_loss_save_path6 --save_path results/raindrop/APRN_r_2_l6_m${wm}_tm${num_mask}_a --data_path datasets/test/raindrop_test_a/data --gt_dir datasets/test/raindrop_test_a/gt --gpu_id 2 --recurrent_iter $recurrent_iter --which_mask $wm --num_mask $num_mask
+
+wm=1
+echo "APRN_r_2_diffent loss with test a $attention2_w_loss_save_path6 which mask: $wm"
+python test_APRN_r.py --logdir $attention2_w_loss_save_path6 --save_path results/raindrop/APRN_r_2_l6_m${wm}_tm${num_mask}_a --data_path datasets/test/raindrop_test_a/data --gt_dir datasets/test/raindrop_test_a/gt --gpu_id 2 --recurrent_iter $recurrent_iter --which_mask $wm --num_mask $num_mask
+
+wm=0
+echo "APRN_r_2_diffent loss with test a $attention2_w_loss_save_path6 which mask: $wm"
+python test_APRN_r.py --logdir $attention2_w_loss_save_path6 --save_path results/raindrop/APRN_r_2_l6_m${wm}_tm${num_mask}_a --data_path datasets/test/raindrop_test_a/data --gt_dir datasets/test/raindrop_test_a/gt --gpu_id 2 --recurrent_iter $recurrent_iter --which_mask $wm --num_mask $num_mask
 ################################## 
 # ### for test_a
 # # PRN

@@ -28,6 +28,7 @@ parser.add_argument("--use_gpu", type=bool, default=True, help='use GPU or not')
 parser.add_argument("--gpu_id", type=str, default="0", help='GPU id')
 parser.add_argument("--recurrent_iter", type=int, default=6, help='number of recursive stages')
 parser.add_argument("--num_mask", type=int, default=2, help='number of masks in attention map')
+parser.add_argument("--which_mask", type=int, default=0, help='which mask is used in attention map') 
 opt = parser.parse_args()
 
 if opt.use_gpu:
@@ -42,7 +43,7 @@ def main():
     print("# of training samples: %d\n" % int(len(dataset_train)))
 
     # Build model
-    model = APRN_r(num_mask=opt.num_mask, recurrent_iter=opt.recurrent_iter, use_GPU=opt.use_gpu)
+    model = APRN_r(num_mask=opt.num_mask, recurrent_iter=opt.recurrent_iter, use_GPU=opt.use_gpu, which_mask=opt.which_mask)
     print_network(model)
 
     # loss function

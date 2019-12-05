@@ -136,3 +136,7 @@ results/Rain*/
 
 net_epoch*.pth
 events.*
+
+*.png
+*.jpg
+

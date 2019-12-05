@@ -15,10 +15,10 @@ from tqdm import tqdm
 
 gt_dirs = ['datasets/test/raindrop_test_a/gt', 'datasets/test/raindrop_test_b/gt']
 
-parser = argparse.ArgumentParser(description="PReNet_Test")
+parser = argparse.ArgumentParser(description="APRNr_Test")
 parser.add_argument("--logdir", type=str, default="logs/PReNet6/", help='path to model and log files')
 parser.add_argument("--data_path", type=str, default="/datasets/test/raindrop_test_a/data", help='path to training data')
-parser.add_argument("--save_path", type=str, default="/home/r/works/derain_arxiv/release/results/PReNet", help='path to save results')
+parser.add_argument("--save_path", type=str, default="results/raindrop/", help='path to save results')
 parser.add_argument('--gt_dir', type=str, 
     choices = gt_dirs,
     default='datasets/test/raindrop_test_a/gt', help='ground truth dir \n' + ' | '.join(gt_dirs))
@@ -26,6 +26,7 @@ parser.add_argument("--use_gpu", type=bool, default=True, help='use GPU or not')
 parser.add_argument("--gpu_id", type=str, default="0", help='GPU id')
 parser.add_argument("--recurrent_iter", type=int, default=6, help='number of recursive stages')
 parser.add_argument("--num_mask", type=int, default=2, help='number of masks in attention map')
+parser.add_argument("--which_mask", type=int, default=0, help='which mask is used in attention map') 
 opt = parser.parse_args()
 
 if opt.use_gpu:
@@ -72,6 +73,7 @@ def save_mask_plt(mask_list, mask_save_path, img_name, img_ext, threshold=0.3):
 
 
 def main():
+    print(opt)
 
     os.makedirs(opt.save_path, exist_ok=True)
     mask_save_path = os.path.join(opt.save_path, "attention_map")
@@ -83,7 +85,7 @@ def main():
 
     # Build model
     print('Loading model ...\n')
-    model = APRN_r(opt.num_mask, opt.recurrent_iter, opt.use_gpu)
+    model = APRN_r(opt.num_mask, opt.recurrent_iter, opt.use_gpu, opt.which_mask)
     print_network(model)
     if opt.use_gpu:
         model = model.cuda()
