@@ -1,6 +1,6 @@
 #! bash
 
-batch=25
+batch=18
 data_path=datasets/train/raindrop
 ## APRN_r
 # echo "train ARPN6_r_2_l1"
@@ -65,16 +65,17 @@ attention2_w_loss_save_path11=logs/raindrop/APRN6_r_4_l11
 echo "train $attention2_w_loss_save_path11"
 echo "python train_APRN_r.py --save_path $attention2_w_loss_save_path11 --data_path $data_path --batch_size $batch --gpu_id 2 --num_mask 2 --which_mask 1"
 python train_APRN_r.py --save_path $attention2_w_loss_save_path11 --data_path $data_path --batch_size $batch --gpu_id 2 --num_mask 2 --which_mask 1
-#####################################
+
+#########################################################################################
 ## PRN
-# python train_PRN.py --save_path logs/raindrop/PRN6 --data_path datasets/train/raindrop1 --batch_size 36 --gpu_id 0
-# python train_PRN.py --save_path logs/raindrop/PRN6 --data_path datasets/train/raindrop --batch_size 36 --gpu_id 0 --preprocess True
+# python train_PRN.py --save_path logs/raindrop/PRN6 --data_path datasets/train/raindrop --batch_size $batch --gpu_id 0 --preprocess True
+# python train_PRN.py --save_path logs/raindrop/PRN6 --data_path datasets/train/raindrop1 --batch_size $batch --gpu_id 0
 
 ## PRN_r
-# python train_PRN_r.py --save_path logs/raindrop/PRN6_r --data_path datasets/train/raindrop2 --batch_size 36 --gpu_id 1
+# python train_PRN_r.py --save_path logs/raindrop/PRN6_r --data_path datasets/train/raindrop2 --batch_size $batch --gpu_id 0
 
 ## PReNet
-# python train_PReNet.py --save_path logs/raindrop/PReNet6 --data_path datasets/train/raindrop3 --batch_size 36 --gpu_id 2
+# python train_PReNet.py --save_path logs/raindrop/PReNet6 --data_path datasets/train/raindrop3 --batch_size $batch --gpu_id 0
 
 ## PReNet_r
-# python train_PReNet_r.py --save_path logs/raindrop/PReNet6_r_test --data_path datasets/train/raindrop4 --batch_size 36 --gpu_id 3
+# python train_PReNet_r.py --save_path logs/raindrop/PReNet6_r_test --data_path datasets/train/raindrop4 --batch_size $batch --gpu_id 0
