@@ -93,23 +93,23 @@ which is based on `statistic_psnr_ssim.py`
 
 
 ### 4) Results 
-Average PSNR/SSIM values on four datasets:
+Average PSNR/SSIM values on the raindrop dataset (test_a):
 
 Dataset    |Qian et al.[1] |Ren et al. (PRN_r) [2] |Ours
 -----------|-----------|-----------|-----------
-raindrop   |x/x|x/x|x/x
+raindrop   |31.516/0.921|32.185/0.942|32.808/0.946
 
 
 ### Model Configuration
 
 The following tables provide the configurations of options. 
 
-#### Training Mode Configurations
+#### Training Mode Configurations (`train_APRN_r.py`)
 
 Option                 |Default        | Description
 -----------------------|---------------|------------
 batchSize              | 18            | Training batch size
-recurrent_iter         | 6             | Number of recursive stages
+recurrent_iter         | 4             | Number of recursive stages
 epochs                 | 100           | Number of training epochs
 milestone              | [30,50,80]    | When to decay learning rate
 lr                     | 1e-3          | Initial learning rate
@@ -121,13 +121,13 @@ which_mask             | 0             | Which mask is used in the Progressive n
 data_path              | N/A           | path to training images
 save_path              | N/A           | path to save models and status           
 
-#### Testing Mode Configurations
+#### Testing Mode Configurations (`test_APRN_r.py`)
 
 Option                 |Default           | Description
 -----------------------|------------------|------------
 use_GPU                | True             | use GPU or not
 gpu_id                 | 0                | GPU id
-recurrent_iter         | 6                | Number of recursive stages
+recurrent_iter         | 4                | Number of recursive stages
 num_mask               | 2                | The number of masks used in the attention map
 which_mask             | 0                | Which mask is used in the Progressive network
 logdir                 | N/A              | path to trained model
@@ -135,7 +135,7 @@ data_path              | N/A              | path to testing images
 gt_path                | N/A              | path to ground truth of testing images
 save_path              | N/A              | path to save results
 
-#### Statistic Mode Configurations
+#### Statistic Configurations (`statistic_psnr_ssim.py`)
 Option                 |Default        | Description
 -----------------------|---------------|------------
 gt_dir                 | N/A           | path to ground truth of testing images
