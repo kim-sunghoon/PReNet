@@ -17,13 +17,13 @@ test
 The whole dataset can be find here:
 https://drive.google.com/open?id=1e7R76s6vwUJxILOcAsthgDLPSnOrQ49K
 
-####Training Set:
+* Training Set:
 861 image pairs for training.
 
-####Testing Set A:
+* Testing Set A:
 For quantitative evaluation where the alignment of image pairs is good. A subset of testing set B.
 
-####Testing Set B:
+* Testing Set B:
 239 image pairs for testing.
 
 Please download and place the unzipped folders into `./datasets/train/` and  `./datasets/test/`. 
