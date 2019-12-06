@@ -1,9 +1,10 @@
-## Raindrop-removal Project 
-
-Progressive Image Deraining Networks: A Better and Simpler Baseline 
-
+## CSED 441 Final Project (Fall, 2019)
+## Attention and Progressive Network Based Raindrop-Removal From a Single Image 
+by Sunghoon Kim (20182560) and Jooyeong Yun (20160185)
 
 ### Abstract
+test 
+
 
 ## Prerequisites
 - Python 3.6, PyTorch >= 0.4.0 
@@ -94,9 +95,9 @@ which is based on `statistic_psnr_ssim.py`
 ### 4) Results 
 Average PSNR/SSIM values on four datasets:
 
-Dataset    | PRN       |PReNet     |PRN_r      |PReNet_r   |Qian et al.[1] |Ours
------------|-----------|-----------|-----------|-----------|-----------|-----------
-raindrop   |28.07/0.884|29.46/0.899|27.43/0.874|28.98/0.892|x/x|x/x
+Dataset    |Qian et al.[1] |Ren et al. (PRN_r) [2] |Ours
+-----------|-----------|-----------|-----------
+raindrop   |x/x|x/x|x/x
 
 
 ### Model Configuration
