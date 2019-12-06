@@ -1,5 +1,5 @@
 ## CSED 441 Final Project (Fall, 2019)
-## Attention and Progressive Network Based Raindrop-Removal From a Single Image 
+## Attention and Progressive Network Based Raindrop Removal From a Single Image 
 by Sunghoon Kim (20182560) and Jooyeong Yun (20160185)
 
 ### Abstract
@@ -10,7 +10,7 @@ test
 - Python 3.6, PyTorch >= 0.4.0 
 - Requirements: opencv-python, tensorboardX
 - Platforms: Ubuntu 16.04, cuda-8.0 & cuDNN v-5.1 (higher versions also work well)
-
+- Please type `conda env create -f requirement.yaml`, when you make a virutal enviroment using conda 
 
 
 ## Datasets
