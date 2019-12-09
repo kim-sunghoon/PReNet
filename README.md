@@ -89,7 +89,7 @@ which is based on `statistic_psnr_ssim.py`
 ### 4) Results 
 Average PSNR/SSIM values on the raindrop dataset (test_a):
 
-Dataset    |Qian et al.[1] |Ren et al. (PRN_r) [2] |Ours
+Dataset    |Qian et al. [2] |Ren et al. (PRN_r) [3] |Ours
 -----------|-----------|-----------|-----------
 raindrop   |31.516/0.921|32.185/0.942|32.808/0.946
 
@@ -138,16 +138,18 @@ store_eval_dir         | N/A           | path to save ssim and psnr results
 
 
 ## References
-[1] R. Qian, TF. Tan, W. Yang, J. Su and J. Liu "Attentive Generative Adversarial Network for Raindrop Removal from a Single Image", In IEEE CVPR 2018
+[1] D. Cremers, W. T. Freeman, S. Narasimhan, P. Newman, V.M. Patel, O Beijborm, J. Hoffman and W. Maddern “CVPR 2019 Workshop Vision for All Seasons: Bad Weather and Nighttime”, accessed 9 Dec 2019, https://vision4allseasons.net/ 
 
-[2] D. Ren, W. Zuo, Q. Hu, P. Zhu and D. Meng "Progressive Image Deraining Networks: A Better and Simpler Baseline", In IEEE CVPR 2019.
+[2] R. Qian, TF. Tan, W. Yang, J. Su and J. Liu "Attentive Generative Adversarial Network for Raindrop Removal from a Single Image", In IEEE CVPR 2018
 
-[3] W. Yang, RT. Tan, J. Feng, J. Liu, Z. Guo and S. Yan "Deep joint rain detection and removal from a single image", In IEEE CVPR 2017.
+[3] D. Ren, W. Zuo, Q. Hu, P. Zhu and D. Meng "Progressive Image Deraining Networks: A Better and Simpler Baseline", In IEEE CVPR 2019.
 
-[4] Y. Li, RT. Tan, X. Guo, J. Lu and MS. Brown "Rain streak removal using layer priors", In IEEE CVPR 2016.
+[4] X. Fu, J. Huang, D. Zeng, Y. Huang, X. Ding and J. Paisley  "Removing rain from single images via a deep detail network", In IEEE CVPR 2017.
 
-[5] X. Fu, J. Huang, D. Zeng, Y. Huang, X. Ding and J. Paisley  "Removing rain from single images via a deep detail network", In IEEE CVPR 2017.
+[5] W. Yang, RT. Tan, J. Feng, J. Liu, Z. Guo and S. Yan "Deep joint rain detection and removal from a single image", In IEEE CVPR 2017.
 
-[6] X. Li, J. Wu, Z. Lin, H. Liu and H. Zha "Recurrent squeeze-and-excitation context aggregation net for single image deraining", In ECCV 2018.
+[6] Y. Li, RT. Tan, X. Guo, J. Lu and MS. Brown "Rain streak removal using layer priors", In IEEE CVPR 2016.
+
+[] X. Li, J. Wu, Z. Lin, H. Liu and H. Zha "Recurrent squeeze-and-excitation context aggregation net for single image deraining", In ECCV 2018.
 
 
