@@ -1,5 +1,5 @@
 ## CSED 441 Final Project (Fall, 2019)
-## Attention and Progressive Network Based Raindrop-Removal From a Single Image 
+## Attention and Progressive Network Based Raindrop Removal From a Single Image 
 by Sunghoon Kim (20182560) and Jooyeong Yun (20160185)
 
 ### Abstract
@@ -10,20 +10,20 @@ test
 - Python 3.6, PyTorch >= 0.4.0 
 - Requirements: opencv-python, tensorboardX
 - Platforms: Ubuntu 16.04, cuda-8.0 & cuDNN v-5.1 (higher versions also work well)
-
+- Please type `conda env create -f requirement.yaml`, when you make a virutal enviroment using conda 
 
 
 ## Datasets
 The whole dataset can be find here:
 https://drive.google.com/open?id=1e7R76s6vwUJxILOcAsthgDLPSnOrQ49K
 
-####Training Set:
+* Training Set:
 861 image pairs for training.
 
-####Testing Set A:
+* Testing Set A:
 For quantitative evaluation where the alignment of image pairs is good. A subset of testing set B.
 
-####Testing Set B:
+* Testing Set B:
 239 image pairs for testing.
 
 Please download and place the unzipped folders into `./datasets/train/` and  `./datasets/test/`. 
@@ -93,23 +93,23 @@ which is based on `statistic_psnr_ssim.py`
 
 
 ### 4) Results 
-Average PSNR/SSIM values on four datasets:
+Average PSNR/SSIM values on the raindrop dataset (test_a):
 
 Dataset    |Qian et al.[1] |Ren et al. (PRN_r) [2] |Ours
 -----------|-----------|-----------|-----------
-raindrop   |x/x|x/x|x/x
+raindrop   |31.516/0.921|32.185/0.942|32.808/0.946
 
 
 ### Model Configuration
 
 The following tables provide the configurations of options. 
 
-#### Training Mode Configurations
+#### Training Mode Configurations (`train_APRN_r.py`)
 
 Option                 |Default        | Description
 -----------------------|---------------|------------
 batchSize              | 18            | Training batch size
-recurrent_iter         | 6             | Number of recursive stages
+recurrent_iter         | 4             | Number of recursive stages
 epochs                 | 100           | Number of training epochs
 milestone              | [30,50,80]    | When to decay learning rate
 lr                     | 1e-3          | Initial learning rate
@@ -121,13 +121,13 @@ which_mask             | 0             | Which mask is used in the Progressive n
 data_path              | N/A           | path to training images
 save_path              | N/A           | path to save models and status           
 
-#### Testing Mode Configurations
+#### Testing Mode Configurations (`test_APRN_r.py`)
 
 Option                 |Default           | Description
 -----------------------|------------------|------------
 use_GPU                | True             | use GPU or not
 gpu_id                 | 0                | GPU id
-recurrent_iter         | 6                | Number of recursive stages
+recurrent_iter         | 4                | Number of recursive stages
 num_mask               | 2                | The number of masks used in the attention map
 which_mask             | 0                | Which mask is used in the Progressive network
 logdir                 | N/A              | path to trained model
@@ -135,7 +135,7 @@ data_path              | N/A              | path to testing images
 gt_path                | N/A              | path to ground truth of testing images
 save_path              | N/A              | path to save results
 
-#### Statistic Mode Configurations
+#### Statistic Configurations (`statistic_psnr_ssim.py`)
 Option                 |Default        | Description
 -----------------------|---------------|------------
 gt_dir                 | N/A           | path to ground truth of testing images
