@@ -1,4 +1,4 @@
-#! bash
+#!/bin/bash
 
 ###
 # echo "APRN_r a and b statistic"
@@ -50,18 +50,33 @@ echo "APRN_r_2_diffent loss6 iteration1 with test a and b "
 # python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_a/gt --result_dir results/raindrop/APRN_r_2_l6_m${wm}_a
 # python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_b/gt --result_dir results/raindrop/APRN_r_2_l6_m${wm}_b
 ### 12.05 13:40 
-num_mask=4
-wm=0
-python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_a/gt --result_dir results/raindrop/APRN_r_2_l6_m${wm}_tm${num_mask}_a
-wm=1
-python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_a/gt --result_dir results/raindrop/APRN_r_2_l6_m${wm}_tm${num_mask}_a
-wm=2
-python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_a/gt --result_dir results/raindrop/APRN_r_2_l6_m${wm}_tm${num_mask}_a
-wm=3
-python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_a/gt --result_dir results/raindrop/APRN_r_2_l6_m${wm}_tm${num_mask}_a
+# num_mask=4
+# wm=0
+# python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_a/gt --result_dir results/raindrop/APRN_r_2_l6_m${wm}_tm${num_mask}_a
+# wm=1
+# python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_a/gt --result_dir results/raindrop/APRN_r_2_l6_m${wm}_tm${num_mask}_a
+# wm=2
+# python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_a/gt --result_dir results/raindrop/APRN_r_2_l6_m${wm}_tm${num_mask}_a
+# wm=3
+# python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_a/gt --result_dir results/raindrop/APRN_r_2_l6_m${wm}_tm${num_mask}_a
 # python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_b/gt --result_dir results/raindrop/APRN_r_2_l6_m${wm}_b
 
-############# 
+### 12.09 
+# python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_a/gt --result_dir results/raindrop/APRN_r_2_l6_i3_a
+
+num_mask=4
+wm=3
+python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_a/gt --result_dir results/raindrop/APRN_r_2_l10_m${wm}_tm${num_mask}_a
+wm=2
+python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_a/gt --result_dir results/raindrop/APRN_r_2_l10_m${wm}_tm${num_mask}_a
+
+wm=1
+python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_a/gt --result_dir results/raindrop/APRN_r_2_l10_m${wm}_tm${num_mask}_a
+
+wm=0
+python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_a/gt --result_dir results/raindrop/APRN_r_2_l10_m${wm}_tm${num_mask}_a
+
+############################################# 
 ### for test_a
 # PRN
 # python ./statistic_psnr_ssim.py --gt_dir datasets/test/raindrop_test_a/gt --result_dir results/raindrop/PRN6_a
