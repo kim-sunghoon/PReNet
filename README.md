@@ -3,8 +3,7 @@
 by Sunghoon Kim (20182560) and Jooyeong Yun (20160185)
 
 ### Abstract
-test 
-
+*Computer vision with weather conditions robust is one of the more difficult problems to solve. In this project, we have focused on the raindrop removal problem from a single image. We have proposed the attention progressive recursive network (APRN_r), which has relatively small parameters and achieves a mild improvement in terms of mathematical image reconstruction metrics such as SSIM and PSNR. Furthermore, we conducted our failure cases and came up with the solutions that can enhance the raindrop removal quality. Our source code is available at https://github.com/kim-sunghoon/raindrop-removal-CSED441-2019* 
 
 ## Prerequisites
 - Python 3.6, PyTorch >= 0.4.0 
@@ -150,6 +149,5 @@ store_eval_dir         | N/A           | path to save ssim and psnr results
 
 [6] Y. Li, RT. Tan, X. Guo, J. Lu and MS. Brown "Rain streak removal using layer priors", In IEEE CVPR 2016.
 
-[] X. Li, J. Wu, Z. Lin, H. Liu and H. Zha "Recurrent squeeze-and-excitation context aggregation net for single image deraining", In ECCV 2018.
 
 
